@@ -34,6 +34,25 @@ export default function FilmStrip() {
 
   const reelX = useTransform(scrollYProgress, [0, 1], [0, -(n - 1) * (CELL_W + CELL_GAP)])
 
+  // swiping the reel sideways scrubs the film by driving page scroll,
+  // so reel, screen, and scroll position always agree
+  const dragState = useRef(null)
+  const onReelDown = (e) => {
+    dragState.current = { x: e.clientX, scrollY: window.scrollY }
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }
+  const onReelMove = (e) => {
+    const s = dragState.current
+    if (!s || !trackRef.current) return
+    const dx = s.x - e.clientX
+    const scrollable = trackRef.current.offsetHeight - window.innerHeight
+    const factor = scrollable / ((n - 1) * (CELL_W + CELL_GAP))
+    window.scrollTo(0, s.scrollY + dx * factor)
+  }
+  const onReelUp = () => {
+    dragState.current = null
+  }
+
   const frame = FRAMES[active]
 
   return (
@@ -113,7 +132,13 @@ export default function FilmStrip() {
             </svg>
           </div>
 
-          <div className="projreel">
+          <div
+            className="projreel"
+            onPointerDown={onReelDown}
+            onPointerMove={onReelMove}
+            onPointerUp={onReelUp}
+            onPointerCancel={onReelUp}
+          >
             <motion.div className="projreel__strip" style={{ x: reelX }}>
               {FRAMES.map((f, i) => (
                 <div key={f.src} className="projreel__cell">
@@ -127,7 +152,7 @@ export default function FilmStrip() {
             </motion.div>
           </div>
 
-          <p className="projection__hint">keep scrolling — the reel rolls</p>
+          <p className="projection__hint">scroll — or drag the reel</p>
         </div>
       </div>
     </section>

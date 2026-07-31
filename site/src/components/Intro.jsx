@@ -95,7 +95,6 @@ export default function Intro({ onDone }) {
       {show && (
         <motion.div
           className="intro"
-          onClick={dismiss}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.55, delay: 0.3 } }}
         >
@@ -155,8 +154,6 @@ export default function Intro({ onDone }) {
                 {h.emoji}
               </span>
             ))}
-
-          <div className="intro__skip">tap anywhere to skip ✨</div>
         </motion.div>
       )}
     </AnimatePresence>

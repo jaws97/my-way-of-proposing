@@ -41,11 +41,14 @@ export const OPENING_LINES = [
 ]
 
 export const SUBTITLES = [
-  { line: 'Naan unnai kadhalikkiren.', lang: 'Tamil', sub: 'Translation: I love you.' },
-  { line: 'Nenu ninnu premisthunnanu.', lang: 'Telugu', sub: 'Translation: I love you. (I’ve been practicing.)' },
-  { line: 'Enna?!', lang: 'Tamil', sub: 'Translation: what I say when you’re being ridiculous.' },
-  { line: 'Enti?!', lang: 'Telugu', sub: 'Translation: what you say when I’m being ridiculous. Used daily.' },
-  { line: 'Biryani.', lang: 'Both', sub: 'Translation: biryani. Some words are already perfect.' },
+  { line: 'En uyir nee.', lang: 'Tamil', sub: 'Translation: you are my life. Not poetry — just the fact of the matter.' },
+  { line: 'Nuvve naa lokam.', lang: 'Telugu', sub: 'Translation: you are my world. I checked a map. It agreed.' },
+  { line: 'Chellam.', lang: 'Tamil', sub: 'Translation: none exists. Some words aren’t words, they’re people. This one is you.' },
+  { line: 'Bangaram.', lang: 'Telugu', sub: 'Translation: gold. Accurate down to the sparkle.' },
+  { line: 'Enna?! / Enti?!', lang: 'Tamil / Telugu', sub: 'Translation: the official soundtrack of this relationship. Fired in both directions, daily.' },
+  { line: 'Naan unnai kadhalikkiren.', lang: 'Tamil', sub: 'Translation: I love you. In my language, so you know it comes from home.' },
+  { line: 'Nenu ninnu premisthunnanu.', lang: 'Telugu', sub: 'Translation: I love you. In yours, so it reaches you faster. I’ve been practicing.' },
+  { line: 'Biryani.', lang: 'Both', sub: 'Translation: biryani. Some words are already perfect. I can think of one other.' },
 ]
 
 export const BLOOPERS = [
