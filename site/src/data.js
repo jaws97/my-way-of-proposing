@@ -20,7 +20,6 @@ export const FRAMES = [
   { src: '/pics/IMG_1411.jpeg', caption: 'Proof that angels have camera rolls.' },
   { src: '/pics/IMG_1427.jpeg', caption: 'Ten out of ten. Would fall in love again.' },
   { src: '/pics/IMG_1451.jpeg', caption: 'My cardiologist has questions.' },
-  { src: '/pics/PXL_20241231_071902529.PORTRAIT_Original.jpg', caption: 'Ending the year with the best view in it.' },
   { src: '/pics/PXL_20250222_093958885.MP_Original.jpg', caption: 'Two goofballs, one frame. Balanced composition.' },
 ]
 

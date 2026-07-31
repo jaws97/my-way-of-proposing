@@ -190,48 +190,115 @@ main { position: relative; z-index: 1; }
 .opening__line + .opening__line { margin-top: 2.2em; }
 .opening__line em { color: var(--coral); font-style: normal; }
 
-/* ————— film strip ————— */
-.strip-scene { max-width: none; padding-left: 0; padding-right: 0; }
-.strip-scene__head { max-width: 680px; margin: 0 auto; padding: 0 24px; }
-.strip-viewport { overflow: hidden; margin-top: 34px; padding: 18px 0 8px; }
-.strip {
-  display: flex; gap: 22px;
-  padding: 0 max(24px, calc((100vw - 680px) / 2));
+/* ————— the projection room ————— */
+.projection-scene { max-width: none; padding-left: 0; padding-right: 0; }
+.projection__head { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+
+.projection__track { position: relative; margin-top: 26px; }
+
+.projection__stage {
+  position: sticky; top: 0;
+  height: 100svh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 10px 16px;
+}
+
+.cinema-screen {
+  width: min(640px, 94vw);
+  background: var(--ink);
+  border-radius: 20px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 18px 44px rgba(30, 61, 89, 0.3);
+}
+.cinema-screen__top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 4px 10px;
+}
+.cinema-screen__label {
+  font-family: var(--font-display);
+  font-weight: 500; font-size: 0.7rem;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--sun);
+}
+.cinema-screen__count {
+  font-family: var(--font-display);
+  font-weight: 500; font-size: 0.72rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255, 243, 226, 0.8);
+}
+.cinema-screen__media {
+  position: relative;
+  height: min(44svh, 430px);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #142c42;
+}
+.cinema-screen__media img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+}
+.cinema-screen__subtitle {
+  text-align: center;
+  font-style: italic;
+  font-size: clamp(0.95rem, 2.8vw, 1.1rem);
+  line-height: 1.5;
+  color: var(--cream-warm);
+  padding: 12px 10px 4px;
+  min-height: 3.2em;
+}
+
+.projection__beam {
+  width: min(230px, 42vw);
+  margin: -4px auto;
+  line-height: 0;
+}
+
+.projreel {
+  width: min(640px, 94vw);
+  background: var(--ink);
+  border-radius: 14px;
+  padding: 6px 0;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(30, 61, 89, 0.25);
+}
+.projreel__strip {
+  display: flex; gap: 10px;
   width: max-content;
+  padding-left: calc(50% - 38px);
+  padding-right: 50%;
 }
-.frame {
-  width: min(74vw, 330px);
-  flex-shrink: 0;
+.projreel__cell { width: 76px; flex-shrink: 0; }
+.projreel__holes {
+  display: flex; gap: 12px; justify-content: center;
+  padding: 4px 0;
+}
+.projreel__holes i {
+  width: 8px; height: 5px;
   background: var(--cream);
-  border-radius: 18px;
-  padding: 12px 12px 16px;
-  box-shadow: 0 14px 34px rgba(30, 61, 89, 0.18);
+  border-radius: 2px;
+  opacity: 0.55;
 }
-.frame__media {
-  border-radius: 12px; overflow: hidden;
-  aspect-ratio: 4 / 5;
-  background: #dceef5;
+.projreel__thumb {
+  width: 76px; aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: 0.45;
+  outline: 2px solid transparent;
+  outline-offset: 1px;
+  transition: opacity 0.2s, outline-color 0.2s;
 }
-.frame__media img {
-  width: 100%; height: 100%; object-fit: cover;
+.projreel__thumb--on { opacity: 1; outline-color: var(--sun); }
+.projreel__thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
   pointer-events: none;
 }
-.frame__num {
-  font-family: var(--font-display);
-  font-weight: 600; font-size: 0.68rem;
-  letter-spacing: 0.22em;
-  color: var(--coral);
-  margin: 12px 2px 4px;
-}
-.frame__caption {
-  font-size: 0.95rem; line-height: 1.5;
-  color: var(--ink);
-  font-weight: 600;
-  padding: 0 2px;
-}
-.strip-hint {
-  max-width: 680px; margin: 18px auto 0; padding: 0 24px;
-  font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+
+.projection__hint {
+  margin-top: 12px;
+  font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase;
   font-family: var(--font-display); font-weight: 500;
   color: var(--ink-soft);
 }
@@ -501,6 +568,149 @@ main { position: relative; z-index: 1; }
   transform: rotate(45deg);
   border-radius: 3px 50% 50% 50%;
   opacity: 0.75;
+}
+
+/* ————— intro: he carries her picture from far to near ————— */
+.intro {
+  position: fixed; inset: 0; z-index: 100;
+  overflow: hidden;
+  background: linear-gradient(180deg, #6ec5e9 0%, #cdeff7 100%);
+  cursor: pointer;
+}
+
+.intro__sun {
+  position: absolute;
+  top: 12vh; left: 12%;
+  width: clamp(72px, 14vw, 130px); aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #ffe9a3, var(--sun) 62%);
+  box-shadow: 0 0 60px 18px rgba(255, 209, 102, 0.55);
+}
+
+.intro__cloud {
+  position: absolute;
+  animation: intro-cloud-bob 8s ease-in-out infinite;
+}
+@keyframes intro-cloud-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+.intro__couple {
+  position: absolute;
+  bottom: 4vh;
+  left: 50%;
+  margin-left: min(-19vh, -22vw);
+  width: min(38vh, 44vw);
+  aspect-ratio: 300 / 330;
+  transform-origin: 50% 100%;
+  will-change: transform;
+  z-index: 3;
+}
+
+.intro__walker { width: 100%; height: 100%; position: relative; }
+.intro__walker--walking {
+  animation: intro-waddle 0.5s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes intro-waddle {
+  0%, 100% { transform: rotate(2.2deg) translateY(0); }
+  25%      { transform: rotate(0deg) translateY(-3.5%); }
+  50%      { transform: rotate(-2.2deg) translateY(0); }
+  75%      { transform: rotate(0deg) translateY(-3.5%); }
+}
+
+.intro__char {
+  position: absolute; inset: 0;
+  z-index: 2;
+  transform-origin: 50% 92%;
+}
+.intro__char--kissing { animation: intro-kiss 2.6s ease-in-out infinite; }
+@keyframes intro-kiss {
+  0%, 100% { transform: rotate(0deg) translateX(0); }
+  30%      { transform: rotate(1.5deg) translateX(1.5%); }
+  50%      { transform: rotate(-7deg) translateX(-8%); }
+  58%      { transform: rotate(-8deg) translateX(-9%); }
+  78%      { transform: rotate(0.5deg) translateX(0.5%); }
+}
+
+/* the polaroid he's holding, out in his reaching hand */
+.intro__polaroid {
+  position: absolute;
+  left: -34%; top: 6%;
+  width: 58%;
+  background: #fff;
+  padding: 2.5% 2.5% 9%;
+  border-radius: 6px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+  transform: rotate(-8deg);
+  transform-origin: 60% 90%;
+  z-index: 3;
+}
+.intro__polaroid--kissed { animation: intro-wiggle 2.6s ease-in-out infinite; }
+.intro__polaroid img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 3px;
+}
+@keyframes intro-wiggle {
+  0%, 100% { transform: rotate(-8deg); }
+  35%      { transform: rotate(-5.5deg) translateY(-1.5%); }
+  58%      { transform: rotate(-10deg) translateX(-2%); }
+  72%      { transform: rotate(-6.5deg); }
+}
+
+.intro__mwah {
+  position: absolute;
+  left: 5%; top: 38%;
+  font-size: clamp(26px, 4.5vh, 40px);
+  opacity: 0;
+  z-index: 4;
+  animation: intro-mwah 2.6s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes intro-mwah {
+  0%, 52%   { opacity: 0; transform: scale(0.3) translateY(0); }
+  58%       { opacity: 1; transform: scale(1.25) translateY(-6px); }
+  72%       { opacity: 1; transform: scale(1) translateY(-22px); }
+  90%, 100% { opacity: 0; transform: scale(0.8) translateY(-42px); }
+}
+
+.intro__heart {
+  position: absolute;
+  bottom: -48px;
+  z-index: 2;
+  pointer-events: none;
+  animation-name: intro-float;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes intro-float {
+  0%   { transform: translateY(0) translateX(0) scale(0.6) rotate(-8deg); opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { transform: translateY(-52vh) translateX(var(--drift)) scale(1) rotate(8deg); }
+  100% { transform: translateY(-104vh) translateX(calc(var(--drift) * -1)) scale(1.1) rotate(-6deg); opacity: 0; }
+}
+
+.intro__skip {
+  position: absolute;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: 0; right: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(30, 61, 89, 0.45);
+  z-index: 5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro__walker--walking, .intro__polaroid--kissed,
+  .intro__char--kissing, .intro__mwah, .intro__heart { animation: none; }
+  .intro__mwah { opacity: 1; }
 }
 
 /* ————— reduced motion ————— */

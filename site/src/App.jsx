@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Lenis from 'lenis'
+import Intro from './components/Intro'
 import Sky from './components/Sky'
 import TitleCard from './components/TitleCard'
 import Scene, { Reveal } from './components/Scene'
@@ -13,6 +14,8 @@ import PostCredits from './components/PostCredits'
 import { OPENING_LINES } from './data'
 
 export default function App() {
+  const [introDone, setIntroDone] = useState(false)
+
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.12, smoothWheel: true })
     let raf
@@ -29,7 +32,9 @@ export default function App() {
 
   return (
     <>
+      <Intro onDone={() => setIntroDone(true)} />
       <Sky />
+      {introDone && (
       <main>
         <TitleCard />
 
@@ -49,6 +54,7 @@ export default function App() {
         <Finale />
         <PostCredits />
       </main>
+      )}
     </>
   )
 }
