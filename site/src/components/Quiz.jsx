@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { QUIZ } from '../data'
-import Scene from './Scene'
+import Scene, { Reveal } from './Scene'
 
 function Question({ item, index }) {
   const [picked, setPicked] = useState(null)
@@ -53,7 +53,10 @@ function Question({ item, index }) {
 
 export default function Quiz() {
   return (
-    <Scene slate="Scene 02 — audience Q&A" title="The lead actress takes questions">
+    <Scene slate="Scene 02 — a few questions" title="Some questions for you, Vasavi">
+      <Reveal delay={0.12}>
+        <p className="scene__body">Tap an answer. Every option gets you a reply from me — there are no wrong ones. (Well. Almost.)</p>
+      </Reveal>
       <div className="quiz">
         {QUIZ.map((item, i) => (
           <Question key={i} item={item} index={i} />
