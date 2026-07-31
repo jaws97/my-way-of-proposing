@@ -9,7 +9,7 @@ export const FRAMES = [
   { src: '/pics/IMG_0644.jpeg', caption: 'The director said “act natural.” She overdelivered.' },
   { src: '/pics/IMG_0650.jpeg', caption: 'Frame of the year, every year.' },
   { src: '/pics/IMG_0672.jpeg', caption: 'Golden hour called. It was jealous.' },
-  { src: '/pics/IMG_0925.jpeg', caption: 'Two menaces, zero regrets.' },
+  { src: '/pics/IMG_0925.jpeg', caption: 'The cute-angry glare. I forgot what I did wrong. Worth it.' },
   { src: '/pics/IMG_0973.jpeg', caption: 'My favorite view. The scenery is fine too.' },
   { src: '/pics/IMG_1038.jpeg', caption: 'Warning: prolonged viewing affects heart rate.' },
   { src: '/pics/IMG_1042.jpeg', caption: 'Lock-screen material. Obviously already is.' },
@@ -20,7 +20,7 @@ export const FRAMES = [
   { src: '/pics/IMG_1411.jpeg', caption: 'Proof that angels have camera rolls.' },
   { src: '/pics/IMG_1427.jpeg', caption: 'Ten out of ten. Would fall in love again.' },
   { src: '/pics/IMG_1451.jpeg', caption: 'My cardiologist has questions.' },
-  { src: '/pics/PXL_20250222_093958885.MP_Original.jpg', caption: 'Two goofballs, one frame. Balanced composition.' },
+  { src: '/pics/PXL_20250222_093958885.MP_Original.jpg', caption: 'My goofball. One frame can barely contain her.' },
 ]
 
 // The one that gets the spotlight in the finale.
