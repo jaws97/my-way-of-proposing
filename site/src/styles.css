@@ -121,8 +121,21 @@ main { position: relative; z-index: 1; }
   line-height: 1.02;
   letter-spacing: -0.01em;
 }
-.title-card__title .amp { color: var(--coral); }
+.title-card__title { position: relative; }
+.title-card__title .amp {
+  color: var(--coral);
+  display: inline-block;
+  transform-origin: bottom center;
+}
 .title-card__word { display: inline-block; white-space: pre; }
+.lamp {
+  position: absolute; left: 0; top: 0;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  z-index: 2;
+  filter: drop-shadow(0 4px 8px rgba(30, 61, 89, 0.25));
+}
 .title-card__sub {
   margin-top: 22px;
   font-size: clamp(1rem, 3vw, 1.2rem);
