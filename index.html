@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#fff3e9">
+<title>For Chells 💖 (Warning: Extremely Cheesy)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.min.js"></script>
+<style>
+  :root {
+    /* rose-and-marigold scrapbook palette */
+    --pink: #d23c5c;        /* kumkum rose */
+    --pink-soft: #b1284d;   /* deep rose, for emphasis text */
+    --purple: #e8703f;      /* coral (legacy var name) */
+    --gold: #f0a428;        /* marigold */
+    --bg1: #fff3e9;         /* peach paper */
+    --bg2: #ffe8dd;         /* deeper paper */
+    --text: #53292f;        /* warm rose-brown ink */
+    --muted: rgba(83, 41, 47, .66);
+    --glass: #fffdf9;       /* card paper */
+    --glass-border: rgba(210, 60, 92, .25);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+    background:
+      radial-gradient(1100px 550px at 85% -10%, var(--bg2), transparent 60%),
+      radial-gradient(900px 500px at -10% 35%, #ffe9f0, transparent 55%),
+      var(--bg1);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: default;
+  }
+  /* paper grain */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    opacity: .45;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .2 0 0 0 0 .15 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  h1, h2, h3 { font-family: 'Caveat', 'Comic Sans MS', cursive; }
+  ::selection { background: var(--pink); color: white; }
+
+  .grad-text {
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--gold), var(--pink));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradShift 6s linear infinite;
+  }
+  @keyframes gradShift { to { background-position: 300% 0; } }
+
+  section { position: relative; z-index: 2; padding: 90px 20px; max-width: 960px; margin: 0 auto; }
+
+  .glass {
+    background: var(--glass);
+    border: 2px solid rgba(210, 60, 92, .18);
+    /* slightly uneven corners, like hand-cut paper */
+    border-radius: 22px 26px 20px 28px / 26px 20px 28px 22px;
+    box-shadow: 0 12px 32px rgba(83, 41, 47, .14);
+  }
+
+  /* ---------- preloader ---------- */
+  #loader {
+    position: fixed; inset: 0; z-index: 999;
+    background: linear-gradient(160deg, var(--bg1), var(--bg2));
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 20px; text-align: center; padding: 20px;
+    transition: opacity .8s, visibility .8s;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; }
+  #loaderHeart { font-size: 74px; filter: drop-shadow(0 0 24px var(--pink)); }
+  #loader h2 { font-size: 1.3rem; color: var(--muted); font-weight: 400; }
+  #loaderCount { font-size: 1.1rem; color: var(--pink-soft); font-weight: 700; letter-spacing: 1px; }
+
+  /* ---------- hero + webgl ---------- */
+  #webgl {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
+  }
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; gap: 26px;
+  }
+  .hero h1 {
+    font-size: clamp(3.2rem, 12vw, 6.5rem);
+    line-height: 1.05;
+    filter: drop-shadow(0 4px 14px rgba(210, 60, 92, .25));
+  }
+  .hero h1 .ltr { display: inline-block; white-space: pre; }
+  #typewriter {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1.5rem, 5vw, 2.1rem);
+    color: var(--pink-soft); font-weight: 700;
+    min-height: 2.2em; max-width: 700px;
+  }
+  #typewriter::after { content: '|'; animation: blink .7s infinite; color: var(--pink); }
+  @keyframes blink { 50% { opacity: 0; } }
+  .hero p.sub {
+    font-size: clamp(.95rem, 3vw, 1.2rem);
+    max-width: 560px; line-height: 1.7; color: var(--muted);
+  }
+  .scroll-hint { font-size: 34px; filter: drop-shadow(0 0 12px var(--pink)); }
+
+  /* ---------- sections generic ---------- */
+  .section-title {
+    text-align: center;
+    font-size: clamp(1.7rem, 5.5vw, 2.6rem);
+    margin-bottom: 10px;
+  }
+  .section-sub { text-align: center; margin-bottom: 44px; color: var(--muted); }
+  .reveal { opacity: 0; }
+
+  /* ---------- love question ---------- */
+  .love-question {
+    padding: 46px 26px; text-align: center;
+    position: relative; min-height: 280px;
+  }
+  .btn {
+    font-family: inherit; font-size: 1.15rem; font-weight: 800;
+    border: none; border-radius: 50px;
+    padding: 15px 40px; cursor: pointer; margin: 10px;
+    color: white; letter-spacing: .5px;
+    transition: filter .2s;
+  }
+  .btn:hover { filter: brightness(1.15); }
+  #yesBtn {
+    background: var(--pink);
+    box-shadow: 0 5px 0 #94203f, 0 12px 24px rgba(210, 60, 92, .3);
+  }
+  #noBtn { background: #f3e0d6; color: var(--muted); position: relative; box-shadow: 0 5px 0 #d9c2b4; }
+  #loveResult { font-size: 1.25rem; margin-top: 18px; font-weight: 800; color: var(--pink-soft); min-height: 1.6em; }
+
+  /* ---------- swipe deck gallery ---------- */
+  .deck-wrap { max-width: 400px; margin: 0 auto; }
+  .deck {
+    position: relative;
+    height: min(64vh, 540px);
+    touch-action: pan-y; /* horizontal drags are ours, vertical scroll stays native */
+  }
+  .card {
+    position: absolute; inset: 0;
+    background: #fffdf9;
+    border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
+    padding: 14px;
+    box-shadow: 0 16px 40px rgba(83, 41, 47, .28);
+    display: flex; flex-direction: column;
+    will-change: transform;
+    user-select: none; -webkit-user-select: none;
+    cursor: grab;
+  }
+  /* washi tape strip */
+  .card .tape {
+    position: absolute; top: -13px; left: 50%;
+    width: 112px; height: 30px;
+    transform: translateX(-50%) rotate(-3deg);
+    background: rgba(240, 164, 40, .5);
+    border-left: 2px dashed rgba(255, 255, 255, .75);
+    border-right: 2px dashed rgba(255, 255, 255, .75);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  .card:active { cursor: grabbing; }
+  .card .media {
+    flex: 1; min-height: 0;
+    border-radius: 14px; overflow: hidden;
+    background: linear-gradient(135deg, #ffd3e2, #e0c3ff);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 64px;
+  }
+  .card img, .card video {
+    width: 100%; height: 100%; object-fit: cover;
+    pointer-events: none; -webkit-user-drag: none;
+  }
+  .card .caption {
+    text-align: center; padding: 12px 6px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.35rem; font-weight: 600; color: #53292f;
+  }
+  .card .stamp {
+    position: absolute; top: 26px; left: 22px;
+    font-size: 2rem; font-weight: 900;
+    color: var(--pink); border: 4px solid var(--pink);
+    border-radius: 10px; padding: 4px 14px;
+    transform: rotate(-16deg); opacity: 0;
+    background: rgba(255,255,255,.85);
+    pointer-events: none;
+  }
+  .deck-ui {
+    display: flex; align-items: center; justify-content: center;
+    gap: 26px; margin-top: 26px;
+  }
+  .deck-btn {
+    width: 66px; height: 66px; border-radius: 50%;
+    font-size: 30px; cursor: pointer;
+    background: var(--glass); border: 2px solid var(--glass-border);
+    box-shadow: 0 6px 16px rgba(83, 41, 47, .18);
+    animation: wiggle 2s ease-in-out infinite;
+  }
+  .deck-btn:active { transform: scale(.88); }
+  #deckCount { font-weight: 800; color: var(--pink-soft); min-width: 70px; text-align: center; }
+  .deck-hint { text-align: center; color: var(--muted); margin-top: 14px; font-size: .9rem; }
+
+  @keyframes wiggle { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+  .coupon .emoji { display: inline-block; animation: wiggle 1.8s ease-in-out infinite; }
+
+  /* ---------- scroll progress ---------- */
+  #progressBar {
+    position: fixed; top: 0; left: 0; z-index: 100;
+    height: 5px; width: 0%;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--gold));
+    box-shadow: 0 1px 8px rgba(210, 60, 92, .4);
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ---------- dictionary ---------- */
+  .dict { display: flex; flex-direction: column; gap: 14px; }
+  .dict-row {
+    padding: 18px 20px;
+    display: grid; grid-template-columns: 1fr 1fr 1.7fr;
+    gap: 10px; align-items: center;
+    border-radius: 18px;
+  }
+  .dict-row.head {
+    background: linear-gradient(90deg, rgba(210, 60, 92, .16), rgba(240, 164, 40, .2));
+    font-weight: 800; letter-spacing: 1px;
+  }
+  .dict-row .word { font-weight: 800; color: var(--pink-soft); font-size: 1.05rem; }
+  .dict-row .meaning { color: var(--muted); font-size: .95rem; }
+  @media (max-width: 540px) {
+    .dict-row { grid-template-columns: 1fr 1fr; }
+    .dict-row .meaning { grid-column: 1 / -1; }
+  }
+
+  /* ---------- reason machine ---------- */
+  .reason-machine {
+    padding: 46px 26px; text-align: center;
+    background: var(--glass);
+    border: 2px dashed rgba(240, 164, 40, .65);
+    border-radius: 24px 20px 26px 18px / 20px 26px 18px 24px;
+    box-shadow: 0 12px 32px rgba(83, 41, 47, .14);
+  }
+  #reasonText {
+    font-size: clamp(1.15rem, 4vw, 1.5rem);
+    font-weight: 800; min-height: 4.5em;
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px; perspective: 500px;
+  }
+  #reasonBtn {
+    background: var(--gold);
+    color: #4a2c00;
+    box-shadow: 0 5px 0 #b3770e, 0 12px 24px rgba(240, 164, 40, .3);
+  }
+  #reasonCount { color: var(--muted); font-size: .9rem; margin-top: 12px; }
+
+  /* ---------- love meter ---------- */
+  .meter-box { padding: 46px 30px; text-align: center; }
+  .meter-track {
+    height: 36px; background: #f7e6da;
+    border: 2px dashed rgba(210, 60, 92, .3);
+    border-radius: 22px; overflow: hidden; margin: 26px 0 12px;
+  }
+  .meter-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--gold), var(--pink));
+    background-size: 300% 100%;
+    border-radius: 22px;
+    animation: gradShift 2.2s linear infinite;
+    box-shadow: 0 0 16px rgba(210, 60, 92, .35);
+  }
+  #meterLabel { font-weight: 800; font-size: 1.15rem; min-height: 1.7em; color: var(--pink-soft); }
+  #meterBtn {
+    background: var(--pink);
+    box-shadow: 0 5px 0 #94203f, 0 12px 24px rgba(210, 60, 92, .3);
+  }
+
+  /* ---------- coupons ---------- */
+  .coupons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  .coupon {
+    border: 2px dashed rgba(210, 60, 92, .55);
+    /* cinema-ticket punched holes on the sides */
+    background:
+      radial-gradient(circle at 0 50%, var(--bg2) 11px, transparent 12px),
+      radial-gradient(circle at 100% 50%, var(--bg2) 11px, transparent 12px),
+      var(--glass);
+    border-radius: 14px;
+    padding: 26px 26px; text-align: center;
+    cursor: pointer;
+    position: relative; overflow: hidden;
+    transform-style: preserve-3d;
+    box-shadow: 0 8px 22px rgba(83, 41, 47, .12);
+  }
+  .coupon .emoji { font-size: 44px; filter: drop-shadow(0 3px 8px rgba(210, 60, 92, .3)); }
+  .coupon h3 { color: var(--pink-soft); margin: 10px 0 6px; }
+  .coupon small { color: var(--muted); }
+  .coupon.redeemed::after {
+    content: 'REDEEMED 💯';
+    position: absolute; inset: 0;
+    background: rgba(210, 60, 92, .93); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.35rem;
+    transform: rotate(-8deg);
+  }
+
+  /* ---------- certificate ---------- */
+  .certificate {
+    background: linear-gradient(160deg, #fffaf0, #fff2d9);
+    border: 3px solid #d9a441;
+    outline: 1px solid rgba(217, 164, 65, .55);
+    outline-offset: 6px;
+    border-radius: 16px; padding: 50px 28px;
+    text-align: center; max-width: 660px; margin: 0 auto;
+    box-shadow: 0 14px 40px rgba(83, 41, 47, .18);
+  }
+  .certificate h2 { color: #a8741a; letter-spacing: 3px; }
+  .certificate .name {
+    font-size: clamp(2rem, 7vw, 3rem);
+    font-family: 'Comic Sans MS', cursive;
+    margin: 18px 0;
+  }
+  .certificate p { line-height: 1.8; color: var(--muted); }
+  .certificate p b { color: var(--text); }
+  .certificate .seal {
+    display: inline-block; margin-top: 22px;
+    font-size: 58px; filter: drop-shadow(0 0 20px var(--gold));
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    text-align: center; padding: 60px 20px 110px;
+    position: relative; z-index: 2;
+    line-height: 2; color: var(--muted);
+  }
+  #kissBtn {
+    background: var(--purple);
+    box-shadow: 0 5px 0 #b8532c, 0 12px 24px rgba(232, 112, 63, .3);
+  }
+
+  /* particles created by JS */
+  .fx { position: fixed; z-index: 998; pointer-events: none; will-change: transform, opacity; }
+</style>
+</head>
+<body>
+
+<canvas id="webgl"></canvas>
+<div id="progressBar"></div>
+
+<!-- Preloader -->
+<div id="loader">
+  <div id="loaderHeart">💖</div>
+  <h2>Loading reasons I love you…</h2>
+  <p id="loaderCount">1 of ∞</p>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <h1 id="heroTitle"><span class="grad-text">Hey Chells 💖</span></h1>
+  <p id="typewriter"></p>
+  <p class="sub reveal">Someone (me) spent way too long making this website instead of just texting you. That's how you know it's serious. 🤓</p>
+  <div class="scroll-hint" id="scrollHint">👇</div>
+</section>
+
+<!-- Do you love me -->
+<section class="reveal">
+  <h2 class="section-title grad-text">Very Important Scientific Survey 🔬</h2>
+  <p class="section-sub">Results are legally binding. I don't make the rules.</p>
+  <div class="love-question glass" id="loveBox">
+    <h3 style="font-size:1.5rem; margin-bottom:22px;">Do you love me? 🥺👉👈</h3>
+    <button class="btn" id="yesBtn">YES 😍</button>
+    <button class="btn" id="noBtn">no 🙄</button>
+    <p id="loveResult"></p>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="reveal">
+  <h2 class="section-title grad-text">Us, Being Iconic 📸</h2>
+  <p class="section-sub">Swipe through our best (and most unhinged) moments.</p>
+  <div class="deck-wrap">
+    <div class="deck" id="deck"></div>
+    <div class="deck-ui">
+      <button class="deck-btn" id="deckBack" title="previous">↩️</button>
+      <div id="deckCount"></div>
+      <button class="deck-btn" id="deckLove" title="love it">😍</button>
+    </div>
+    <p class="deck-hint">Swipe the card, tap 😍, or double-tap for hearts 💕</p>
+  </div>
+</section>
+
+<!-- Dictionary -->
+<section class="reveal">
+  <h2 class="section-title grad-text">Tamil ↔ Telugu Love Dictionary 📖</h2>
+  <p class="section-sub">Two languages. One heart. Zero grammar mistakes (probably).</p>
+  <div class="dict">
+    <div class="dict-row head"><div>Tamil</div><div>Telugu</div><div>Actual meaning</div></div>
+    <div class="dict-row glass"><div class="word">Kadhal</div><div class="word">Prema</div><div class="meaning">What I feel for you. Obviously. 💘</div></div>
+    <div class="dict-row glass"><div class="word">Azhagu</div><div class="word">Andham</div><div class="meaning">You. Literally just you. 😍</div></div>
+    <div class="dict-row glass"><div class="word">Chellam</div><div class="word">Bangaram</div><div class="meaning">Your official government name now 📜</div></div>
+    <div class="dict-row glass"><div class="word">Kannamma</div><div class="word">Bujji</div><div class="meaning">What I call you when I want something 😌</div></div>
+    <div class="dict-row glass"><div class="word">Enna?!</div><div class="word">Enti?!</div><div class="meaning">Our reaction to each other's nonsense 🤨</div></div>
+    <div class="dict-row glass"><div class="word">Biryani</div><div class="word">Biryani</div><div class="meaning">The universal language of our relationship 🍗</div></div>
+  </div>
+</section>
+
+<!-- Reasons -->
+<section class="reveal">
+  <h2 class="section-title grad-text">The Reason Machine™ 🎰</h2>
+  <p class="section-sub">Press the button. Receive a certified fact.</p>
+  <div class="reason-machine">
+    <div id="reasonText">Press the button for a scientifically proven reason why I love you 👇</div>
+    <button class="btn" id="reasonBtn">GIMME A REASON 🎲</button>
+    <p id="reasonCount"></p>
+  </div>
+</section>
+
+<!-- Love meter -->
+<section class="reveal">
+  <h2 class="section-title grad-text">Official Love-O-Meter 3000 ❤️‍🔥</h2>
+  <p class="section-sub">Calibrated by NASA*. (*Not really but it sounds cool)</p>
+  <div class="meter-box glass">
+    <p style="color:var(--muted)">Measuring how much I love you…</p>
+    <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
+    <p id="meterLabel">Awaiting measurement…</p>
+    <button class="btn" id="meterBtn">MEASURE 📏</button>
+  </div>
+</section>
+
+<!-- Coupons -->
+<section class="reveal">
+  <h2 class="section-title grad-text">Redeemable Love Coupons 🎟️</h2>
+  <p class="section-sub">Tap to redeem. No refunds. No expiry date. Ever.</p>
+  <div class="coupons">
+    <div class="coupon"><div class="emoji">🤗</div><h3>1 Free Bear Hug</h3><small>Duration: until YOU let go</small></div>
+    <div class="coupon"><div class="emoji">🍕</div><h3>Food Of Your Choice</h3><small>Yes, even if I said "I'm broke"</small></div>
+    <div class="coupon"><div class="emoji">🎬</div><h3>Movie Night</h3><small>Tollywood or Kollywood — you pick, I won't complain. (Much)</small></div>
+    <div class="coupon"><div class="emoji">🗣️</div><h3>1 Telugu Lesson</h3><small>I promise to actually pay attention, Bangaram</small></div>
+    <div class="coupon"><div class="emoji">😤</div><h3>1 Free "You Were Right"</h3><small>Extremely rare. Use wisely.</small></div>
+    <div class="coupon"><div class="emoji">📵</div><h3>Full Attention Day</h3><small>Phone goes in a drawer. I'm all yours.</small></div>
+    <div class="coupon"><div class="emoji">💃</div><h3>Goofy Dance On Demand</h3><small>In public. Zero shame. For you.</small></div>
+  </div>
+</section>
+
+<!-- Certificate -->
+<section class="reveal">
+  <div class="certificate">
+    <h2>🏆 OFFICIAL CERTIFICATE 🏆</h2>
+    <p>This is to certify that</p>
+    <div class="name grad-text">Vasavi <span style="font-size:.5em;">(a.k.a. Chells 💖)</span></div>
+    <p>is hereby recognized as the <b>World's Best Girlfriend</b>,
+    the <b>prettiest Telugu girl to ever steal a Tamil boy's heart</b>,
+    and the sole owner of my whole entire heart. 💘</p>
+    <p style="margin-top:14px;"><i>Signed: Your favorite goofball ✍️</i></p>
+    <div class="seal" id="seal">🥇</div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="reveal">
+  <button class="btn" id="kissBtn">SEND ME A KISS 😘</button>
+  <p style="margin-top:26px;">Made with 100% love, 3 cups of coffee, and 0 bugs (hopefully) 🐛</p>
+  <p>I love you more than this website can express — and I made it scroll <i>really</i> far. 💖</p>
+  <p>Love needs no translation… but I'm learning Telugu for you anyway, Bangaram. 🫶</p>
+</footer>
+
+<script>
+/* =========================================================
+   EDIT ME! Personalize everything for her below 👇
+   ========================================================= */
+
+const TYPEWRITER_LINES = [
+  "Naan unnai kadhalikkiren 💖 (Tamil for: you're stuck with me)",
+  "Nenu ninnu premisthunnanu 🥰 (see? I'm learning Telugu!)",
+  "Tamil + Telugu = love needs no subtitles 🎬",
+  "You're my favorite notification 📱",
+  "I'd share my biryani with you. BIRYANI. 🍗",
+  "My heart does a little backflip when I see you 🤸",
+];
+
+// Photos live in the /pics folder — edit any caption you like!
+const PHOTOS = [
+  { file: "pics/7407e96f-475c-4005-b4f6-f051d1c8bfa6.JPG", caption: "Exhibit A: perfection exists 📁" },
+  { file: "pics/IMG_0622.jpeg", caption: "The day I forgot how to breathe 😍" },
+  { file: "pics/IMG_0644.jpeg", caption: "Certified cutie caught on camera 📸" },
+  { file: "pics/IMG_0650.jpeg", caption: "POV: my whole world in one photo 🌍" },
+  { file: "pics/IMG_0672.jpeg", caption: "Scientists can't explain this beauty 🔬" },
+  { file: "pics/IMG_0925.jpeg", caption: "Us being a public menace (iconic) 😎" },
+  { file: "pics/IMG_0973.jpeg", caption: "My favorite view, forever 💘" },
+  { file: "pics/IMG_1038.jpeg", caption: "Warning: staring too long causes heart damage ⚠️" },
+  { file: "pics/IMG_1042.jpeg", caption: "Lock screen material, obviously 🔒" },
+  { file: "pics/IMG_1067.jpeg", caption: "Caught being effortlessly gorgeous. Again. 🙄💖" },
+  { file: "pics/IMG_1081.jpeg", caption: "The smile that ruined all other smiles for me 😁" },
+  { file: "pics/IMG_1326.jpeg", caption: "Main character energy only 🎬" },
+  { file: "pics/IMG_1388.jpeg", caption: "I stared at this for 20 minutes. Worth it. 👀" },
+  { file: "pics/IMG_1411.jpeg", caption: "Proof that angels use iPhones 📱" },
+  { file: "pics/IMG_1427.jpeg", caption: "10/10 would fall in love again ⭐" },
+  { file: "pics/IMG_1451.jpeg", caption: "My heart rate every time: 📈" },
+  { file: "pics/PXL_20241231_071902529.PORTRAIT_Original.jpg", caption: "Ending the year with the best view 🎆" },
+  { file: "pics/PXL_20250222_093958885.MP_Original.jpg", caption: "Just two goofballs in love 🤪" },
+  { file: "pics/PXL_20250330_053454382_Original.jpg", caption: "And THIS is why I made a whole website 💖" },
+];
+
+// Videos (also in /pics)
+const VIDEOS = [
+  { file: "pics/IMG_1071.MOV", caption: "Live footage of my favorite human 🎥" },
+  { file: "pics/IMG_1079.MOV", caption: "Director's cut: us being us 🎬" },
+];
+
+const REASONS = [
+  "Your laugh could cure a bad day in 0.2 seconds 😂",
+  "You look cute even when you're mad at me (especially then) 😠➡️😍",
+  "You steal my food and somehow I find that adorable 🍟",
+  "Your hugs feel like a software update that fixes everything 🤗",
+  "You put up with my nonsense on a daily basis. Heroic. 🦸",
+  "Your smile > every sunset I've ever seen 🌅",
+  "You make boring stuff fun just by being there ✨",
+  "You're my favorite person to do absolutely nothing with 🛋️",
+  "Even your yawns are cute and that's frankly unfair 🥱",
+  "You tolerate my Tamil-accented Telugu and only laugh a little 😅",
+  "Two states, one heart — our love story is basically a blockbuster 🎬",
+  "You'd fight me for the last piece of biryani. Respect. 🍗",
+  "Because you're YOU, Vasavi. That's it. That's the reason. 💖",
+];
+
+/* ========================================================= */
+
+/* ================= WebGL: floating 3D hearts ================= */
+(function initWebGL() {
+  if (!window.THREE) return; // no internet? page still works
+  const canvas = document.getElementById('webgl');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0xfff3e9, 8, 30);
+  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, .1, 100);
+  camera.position.z = 12;
+
+  scene.add(new THREE.AmbientLight(0xfff2e6, .75));
+  const l1 = new THREE.PointLight(0xd23c5c, 1.2, 60); l1.position.set(6, 6, 8); scene.add(l1);
+  const l2 = new THREE.PointLight(0xf0a428, 1.0, 60); l2.position.set(-7, -4, 6); scene.add(l2);
+  const l3 = new THREE.PointLight(0xff8fa3, .8, 60); l3.position.set(0, 8, -6); scene.add(l3);
+
+  // heart shape
+  const s = new THREE.Shape();
+  s.moveTo(.5, .5);
+  s.bezierCurveTo(.5, .5, .4, 0, 0, 0);
+  s.bezierCurveTo(-.6, 0, -.6, .7, -.6, .7);
+  s.bezierCurveTo(-.6, 1.1, -.3, 1.54, .5, 1.9);
+  s.bezierCurveTo(1.2, 1.54, 1.6, 1.1, 1.6, .7);
+  s.bezierCurveTo(1.6, .7, 1.6, 0, 1, 0);
+  s.bezierCurveTo(.7, 0, .5, .5, .5, .5);
+  const geo = new THREE.ExtrudeGeometry(s, { depth: .45, bevelEnabled: true, bevelSize: .12, bevelThickness: .12, bevelSegments: 3, curveSegments: 12 });
+  geo.center();
+
+  // glossy candy hearts in rose, marigold, blush
+  const mats = [
+    new THREE.MeshPhongMaterial({ color: 0xd23c5c, emissive: 0x40101c, shininess: 120 }),
+    new THREE.MeshPhongMaterial({ color: 0xf0a428, emissive: 0x3d2803, shininess: 120 }),
+    new THREE.MeshPhongMaterial({ color: 0xff8fa3, emissive: 0x3d1a20, shininess: 120 }),
+  ];
+
+  const hearts = [];
+  const COUNT = window.innerWidth < 600 ? 22 : 36;
+  for (let i = 0; i < COUNT; i++) {
+    const m = new THREE.Mesh(geo, mats[i % mats.length]);
+    const scale = .12 + Math.random() * .4;
+    m.scale.setScalar(scale);
+    m.position.set((Math.random() - .5) * 24, (Math.random() - .5) * 16, -2 - Math.random() * 16);
+    m.rotation.set(Math.PI + (Math.random() - .5), Math.random() * Math.PI * 2, (Math.random() - .5) * .6);
+    m.userData = {
+      rotSpeed: (Math.random() - .5) * .012,
+      bobSpeed: .4 + Math.random() * .8,
+      bobAmp: .15 + Math.random() * .4,
+      baseY: m.position.y,
+      phase: Math.random() * Math.PI * 2,
+    };
+    scene.add(m);
+    hearts.push(m);
+  }
+
+  // one big hero heart (smaller on phones so it doesn't crowd the title)
+  const BIG = window.innerWidth < 600 ? .8 : 1.15;
+  const BIGY = window.innerWidth < 600 ? -1.9 : .3; // below the text on phones
+  const big = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({ color: 0xc9184a, emissive: 0x47000f, shininess: 140 }));
+  big.scale.setScalar(BIG);
+  big.position.set(0, BIGY, 2);
+  big.rotation.x = Math.PI;
+  scene.add(big);
+
+  let mouseX = 0, mouseY = 0;
+  window.addEventListener('pointermove', e => {
+    mouseX = (e.clientX / window.innerWidth - .5) * 2;
+    mouseY = (e.clientY / window.innerHeight - .5) * 2;
+  });
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  const clock = new THREE.Clock();
+  (function tick() {
+    // recover if the page loaded in a hidden/zero-size viewport
+    if (canvas.width === 0 && window.innerWidth > 0) {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    const t = clock.getElapsedTime();
+    hearts.forEach(h => {
+      h.rotation.y += h.userData.rotSpeed;
+      h.position.y = h.userData.baseY + Math.sin(t * h.userData.bobSpeed + h.userData.phase) * h.userData.bobAmp;
+    });
+    big.rotation.y = Math.sin(t * .5) * .55;
+    const beat = BIG * (1 + Math.max(0, Math.sin(t * 3.4)) * .055); // heartbeat
+    big.scale.setScalar(beat);
+    // fade big heart out as you scroll past hero
+    const sc = Math.min(window.scrollY / window.innerHeight, 1);
+    big.position.y = BIGY + sc * 6;
+    big.material.opacity = 1 - sc; big.material.transparent = true;
+    camera.position.x += (mouseX * 1.4 - camera.position.x) * .04;
+    camera.position.y += (-mouseY * 1 - camera.position.y) * .04;
+    camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+    requestAnimationFrame(tick);
+  })();
+})();
+
+/* ================= helpers ================= */
+const hasAnime = typeof anime !== 'undefined';
+// Motion One — the spring engine behind Framer Motion, vanilla build
+const hasMotion = typeof Motion !== 'undefined' && typeof Motion.spring === 'function';
+
+function burst(x, y, emojis, count = 24, spread = 320) {
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'fx';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = x + 'px'; el.style.top = y + 'px';
+    el.style.fontSize = (16 + Math.random() * 22) + 'px';
+    document.body.appendChild(el);
+    if (hasAnime) {
+      anime({
+        targets: el,
+        translateX: anime.random(-spread, spread),
+        translateY: [anime.random(-spread * .7, -40), anime.random(spread * .5, spread * 1.2)],
+        rotate: anime.random(-540, 540),
+        opacity: [1, 0],
+        scale: [1, .6],
+        duration: anime.random(1400, 2600),
+        easing: 'easeOutCubic',
+        complete: () => el.remove(),
+      });
+    } else { setTimeout(() => el.remove(), 1500); }
+  }
+}
+function confettiRain(amount = 40) {
+  const emojis = ['💖','💕','🎉','✨','🌸','💘','🩷'];
+  for (let i = 0; i < amount; i++) {
+    const el = document.createElement('div');
+    el.className = 'fx';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = '-40px';
+    el.style.fontSize = (16 + Math.random() * 22) + 'px';
+    document.body.appendChild(el);
+    if (hasAnime) {
+      anime({
+        targets: el,
+        translateY: window.innerHeight + 120,
+        translateX: anime.random(-140, 140),
+        rotate: anime.random(-720, 720),
+        opacity: [1, .25],
+        duration: anime.random(2200, 4200),
+        easing: 'easeInQuad',
+        delay: anime.random(0, 500),
+        complete: () => el.remove(),
+      });
+    } else { setTimeout(() => el.remove(), 3000); }
+  }
+}
+
+/* ================= preloader ================= */
+const loaderCount = document.getElementById('loaderCount');
+let lc = 1;
+const loaderInterval = setInterval(() => {
+  lc = lc >= 999 ? 1 : lc + Math.floor(Math.random() * 137) + 1;
+  loaderCount.textContent = Math.min(lc, 999) + ' of ∞';
+}, 110);
+if (hasAnime) {
+  anime({ targets: '#loaderHeart', scale: [1, 1.35], duration: 420, direction: 'alternate', loop: true, easing: 'easeInOutQuad' });
+}
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    clearInterval(loaderInterval);
+    loaderCount.textContent = '∞ of ∞ — close enough';
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+      heroIntro();
+    }, 700);
+  }, 1500);
+});
+
+/* ================= hero intro (anime.js letters) ================= */
+function heroIntro() {
+  const span = document.querySelector('#heroTitle .grad-text');
+  const text = span.textContent;
+  // each letter gets its own grad-text: transformed children break background-clip on the parent
+  span.innerHTML = [...text].map(ch => `<span class="ltr grad-text">${ch}</span>`).join('');
+  if (hasAnime) {
+    anime({
+      targets: '#heroTitle .ltr',
+      translateY: [90, 0],
+      rotateZ: [() => anime.random(-40, 40), 0],
+      opacity: [0, 1],
+      duration: 1100,
+      delay: anime.stagger(55),
+      easing: 'easeOutElastic(1, .6)',
+    });
+    anime({ targets: '.hero .sub', opacity: [0, 1], translateY: [30, 0], delay: 900, duration: 800, easing: 'easeOutQuad' });
+    anime({ targets: '#scrollHint', translateY: [0, 14], duration: 700, direction: 'alternate', loop: true, easing: 'easeInOutQuad' });
+  } else {
+    document.querySelector('.hero .sub').style.opacity = 1;
+  }
+  typeLoop();
+}
+
+/* ================= typewriter ================= */
+const tw = document.getElementById('typewriter');
+let twLine = 0, twChar = 0, twDeleting = false;
+function typeLoop() {
+  const line = TYPEWRITER_LINES[twLine];
+  tw.textContent = line.slice(0, twChar);
+  if (!twDeleting) {
+    twChar++;
+    if (twChar > line.length) { twDeleting = true; setTimeout(typeLoop, 1900); return; }
+    setTimeout(typeLoop, 50);
+  } else {
+    twChar--;
+    if (twChar === 0) { twDeleting = false; twLine = (twLine + 1) % TYPEWRITER_LINES.length; }
+    setTimeout(typeLoop, 22);
+  }
+}
+
+/* ================= scroll reveals ================= */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    io.unobserve(en.target);
+    if (hasAnime) {
+      anime({ targets: en.target, opacity: [0, 1], translateY: [60, 0], duration: 900, easing: 'easeOutCubic' });
+      const title = en.target.querySelector('.section-title');
+      if (title) anime({ targets: title, scale: [.6, 1], rotate: [-3, 0], duration: 800, delay: 150, easing: 'easeOutElastic(1, .55)' });
+      const rows = en.target.querySelectorAll('.dict-row, .coupon');
+      if (rows.length) {
+        anime({ targets: rows, opacity: [0, 1], translateY: [40, 0], scale: [.92, 1], delay: anime.stagger(90, { start: 150 }), duration: 700, easing: 'easeOutBack' });
+      }
+    } else { en.target.style.opacity = 1; }
+  });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ================= do you love me ================= */
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const loveResult = document.getElementById('loveResult');
+const noTaunts = ['no 🙄','nope?','hey!','rude!!','try again 😏','nice try','NEVER 😤',"can't catch me!",'lol no ❌'];
+let noTries = 0;
+function dodge() {
+  noTries++;
+  const box = document.getElementById('loveBox').getBoundingClientRect();
+  noBtn.style.position = 'absolute';
+  const nx = Math.random() * (box.width - 130);
+  const ny = Math.random() * (box.height - 70);
+  if (hasAnime) {
+    anime({ targets: noBtn, left: nx + 'px', top: ny + 'px', duration: 220, easing: 'easeOutQuad' });
+  } else { noBtn.style.left = nx + 'px'; noBtn.style.top = ny + 'px'; }
+  noBtn.textContent = noTaunts[noTries % noTaunts.length];
+  if (noTries === 5) loveResult.textContent = 'The button is faster than you. Just saying. 😏';
+  if (noTries === 10) { noBtn.style.transform = 'scale(0.55)'; loveResult.textContent = "It's shrinking out of fear. Give up. 😂"; }
+  if (noTries >= 15) { noBtn.style.display = 'none'; loveResult.textContent = 'The "no" button has left the chat. Only YES remains. 😌'; }
+}
+noBtn.addEventListener('mouseover', dodge);
+noBtn.addEventListener('click', dodge);
+noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); dodge(); });
+yesBtn.addEventListener('click', (e) => {
+  loveResult.textContent = 'CORRECT ANSWER!! I love you too!! 🎉💖🎉';
+  burst(e.clientX, e.clientY, ['💖','💕','🎉','✨'], 40);
+  confettiRain(40);
+  if (hasAnime) anime({ targets: yesBtn, scale: [1, 1.25, 1], duration: 500, easing: 'easeOutBack' });
+});
+
+/* ================= haptics ================= */
+function buzz(ms = 18) { if (navigator.vibrate) { try { navigator.vibrate(ms); } catch (e) {} } }
+
+/* ================= swipe deck gallery ================= */
+const deck = document.getElementById('deck');
+const deckCount = document.getElementById('deckCount');
+const ITEMS = [
+  ...PHOTOS.map(p => ({ ...p, kind: 'img' })),
+  ...VIDEOS.map(v => ({ ...v, kind: 'video' })),
+];
+let deckIdx = 0;
+const cards = ITEMS.map((item, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  const media = document.createElement('div');
+  media.className = 'media';
+  if (item.kind === 'img') {
+    const img = document.createElement('img');
+    img.src = item.file; img.alt = item.caption;
+    img.draggable = false;
+    img.onerror = () => { img.remove(); media.textContent = '🥰'; };
+    media.appendChild(img);
+  } else {
+    const vid = document.createElement('video');
+    vid.src = item.file;
+    vid.muted = true; vid.loop = true; vid.playsInline = true;
+    vid.preload = 'metadata';
+    vid.onerror = () => { vid.remove(); media.textContent = '🎥'; };
+    media.appendChild(vid);
+  }
+  const cap = document.createElement('div');
+  cap.className = 'caption';
+  cap.textContent = item.caption;
+  const stamp = document.createElement('div');
+  stamp.className = 'stamp';
+  stamp.textContent = 'LOVED 💖';
+  const tape = document.createElement('div');
+  tape.className = 'tape';
+  tape.style.transform = `translateX(-50%) rotate(${i % 2 ? 3 : -3}deg)`;
+  card.appendChild(media);
+  card.appendChild(cap);
+  card.appendChild(stamp);
+  card.appendChild(tape);
+  deck.appendChild(card);
+  return card;
+});
+
+function layoutDeck(animated = true) {
+  cards.forEach((card, i) => {
+    const pos = i - deckIdx;
+    if (pos < 0 || pos > 2) { card.style.display = 'none'; return; }
+    card.style.display = 'flex';
+    card.style.zIndex = 10 - pos;
+    const targetT = `translateY(${pos * 16}px) scale(${1 - pos * .05})`;
+    const targetO = pos === 2 ? .55 : 1;
+    if (animated && hasMotion) {
+      Motion.animate(card, { transform: targetT, opacity: targetO },
+        { easing: Motion.spring({ stiffness: 320, damping: 26 }) });
+    } else if (animated && hasAnime) {
+      anime({ targets: card, translateY: pos * 16, scale: 1 - pos * .05, translateX: 0, rotate: 0, opacity: targetO, duration: 450, easing: 'easeOutBack' });
+    } else {
+      card.style.transform = targetT;
+      card.style.opacity = targetO;
+    }
+    // only the top video plays
+    const vid = card.querySelector('video');
+    if (vid) { if (pos === 0) { vid.play().catch(() => {}); } else { vid.pause(); } }
+  });
+  deckCount.textContent = deckIdx >= ITEMS.length
+    ? 'again? 🥺'
+    : `${deckIdx + 1} / ${ITEMS.length}`;
+  if (deckIdx >= ITEMS.length) {
+    deckIdx = -1; // next advance restarts
+    setTimeout(() => { deckIdx = 0; layoutDeck(); confettiRain(25); }, 900);
+  }
+}
+
+function swipeAway(dir) { // dir: 1 = right (love), -1 = left
+  if (deckIdx >= ITEMS.length || deckIdx < 0) return;
+  const card = cards[deckIdx];
+  buzz();
+  const stamp = card.querySelector('.stamp');
+  if (dir === 1) {
+    stamp.style.opacity = 1;
+    const r = card.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2, ['💖','😍','💕'], 14, 200);
+  }
+  const flyX = dir * (window.innerWidth + 200);
+  if (hasMotion) {
+    Motion.animate(card, { transform: `translateX(${flyX}px) rotate(${dir * 34}deg)`, opacity: .4 }, { duration: .45, easing: 'ease-in' });
+  } else if (hasAnime) {
+    anime({ targets: card, translateX: flyX, rotate: dir * 34, opacity: [1, .4], duration: 480, easing: 'easeInCubic' });
+  }
+  setTimeout(() => {
+    stamp.style.opacity = 0;
+    deckIdx++;
+    layoutDeck();
+  }, (hasMotion || hasAnime) ? 300 : 0);
+}
+
+// drag handling on the top card
+let dragging = false, startX = 0, startY = 0, dx = 0, dy = 0;
+let lastTap = 0;
+deck.addEventListener('pointerdown', (e) => {
+  if (deckIdx >= ITEMS.length || deckIdx < 0) return;
+  dragging = true; startX = e.clientX; startY = e.clientY; dx = 0; dy = 0;
+  deck.setPointerCapture(e.pointerId);
+  // double-tap = heart burst
+  const now = performance.now();
+  if (now - lastTap < 320) {
+    burst(e.clientX, e.clientY, ['💖','💕','🩷'], 18, 220);
+    buzz(35);
+  }
+  lastTap = now;
+});
+deck.addEventListener('pointermove', (e) => {
+  if (!dragging) return;
+  dx = e.clientX - startX; dy = e.clientY - startY;
+  const card = cards[deckIdx];
+  if (!card) return;
+  card.style.transform = `translate(${dx}px, ${dy * .25}px) rotate(${dx * .07}deg)`;
+  const stamp = card.querySelector('.stamp');
+  stamp.style.opacity = Math.min(Math.max(dx / 90, 0), 1);
+});
+function endDrag() {
+  if (!dragging) return;
+  dragging = false;
+  const card = cards[deckIdx];
+  if (!card) return;
+  if (Math.abs(dx) > 80) {
+    swipeAway(dx > 0 ? 1 : -1);
+  } else if (hasMotion) {
+    // real spring snap-back, tuned bouncy like a Framer Motion drag release
+    Motion.animate(card, { transform: 'translate(0px, 0px) rotate(0deg)' },
+      { easing: Motion.spring({ stiffness: 480, damping: 20 }) });
+    card.querySelector('.stamp').style.opacity = 0;
+  } else if (hasAnime) {
+    anime({ targets: card, translateX: 0, translateY: 0, rotate: 0, duration: 500, easing: 'easeOutElastic(1, .55)' });
+    card.querySelector('.stamp').style.opacity = 0;
+  } else {
+    card.style.transform = '';
+  }
+}
+deck.addEventListener('pointerup', endDrag);
+deck.addEventListener('pointercancel', endDrag);
+
+document.getElementById('deckLove').addEventListener('click', () => swipeAway(1));
+document.getElementById('deckBack').addEventListener('click', () => {
+  if (deckIdx > 0) { deckIdx--; buzz(); layoutDeck(); }
+});
+layoutDeck(false);
+
+/* ================= scroll progress bar ================= */
+const progressBar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+}, { passive: true });
+
+/* ================= reason machine ================= */
+const reasonText = document.getElementById('reasonText');
+const reasonCount = document.getElementById('reasonCount');
+let reasonIdx = -1, reasonsGiven = 0;
+document.getElementById('reasonBtn').addEventListener('click', (e) => {
+  reasonsGiven++;
+  let next;
+  do { next = Math.floor(Math.random() * REASONS.length); } while (next === reasonIdx && REASONS.length > 1);
+  reasonIdx = next;
+  if (hasAnime) {
+    anime({ targets: reasonText, rotateX: [0, 90], opacity: [1, 0], duration: 220, easing: 'easeInQuad' });
+    setTimeout(() => {
+      reasonText.textContent = REASONS[reasonIdx];
+      anime({ targets: reasonText, rotateX: [-90, 0], opacity: [0, 1], duration: 420, easing: 'easeOutBack' });
+    }, 230);
+  } else { reasonText.textContent = REASONS[reasonIdx]; }
+  reasonCount.textContent = `Reasons dispensed: ${reasonsGiven} (remaining: infinite)`;
+  burst(e.clientX, e.clientY, ['💖','✨','🎲'], 12, 180);
+});
+
+/* ================= love meter ================= */
+const meterFill = document.getElementById('meterFill');
+const meterLabel = document.getElementById('meterLabel');
+const meterBtn = document.getElementById('meterBtn');
+let measured = false;
+meterBtn.addEventListener('click', () => {
+  if (measured) { confettiRain(30); return; }
+  measured = true;
+  meterLabel.textContent = 'Measuring… 🤖';
+  if (hasAnime) {
+    anime({ targets: meterFill, width: '100%', duration: 2600, easing: 'easeInOutCubic' });
+  } else { meterFill.style.width = '100%'; }
+  setTimeout(() => { meterLabel.textContent = '100%… wait…'; }, 2700);
+  setTimeout(() => {
+    meterLabel.textContent = '⚠️ ERROR: VALUE EXCEEDS MAXIMUM ⚠️';
+    if (hasAnime) anime({ targets: '.meter-box', translateX: [{ value: -12 }, { value: 12 }, { value: -8 }, { value: 8 }, { value: 0 }], duration: 500, easing: 'easeInOutSine' });
+  }, 3600);
+  setTimeout(() => {
+    meterFill.style.width = '100%'; // ensure full even if the animation was interrupted
+    meterLabel.textContent = '💥 METER BROKE. Love not measurable. Conclusion: ∞ 💥';
+    meterBtn.textContent = 'MEASURE AGAIN (it will break again) 🔧';
+    confettiRain(50);
+  }, 4700);
+});
+
+/* ================= coupons ================= */
+document.querySelectorAll('.coupon').forEach(c => {
+  c.addEventListener('click', (e) => {
+    if (c.classList.contains('redeemed')) return;
+    if (hasAnime) {
+      anime({ targets: c, rotateY: [0, 360], duration: 650, easing: 'easeInOutQuad' });
+      setTimeout(() => c.classList.add('redeemed'), 660);
+    } else { c.classList.add('redeemed'); }
+    burst(e.clientX, e.clientY, ['🎟️','💖','✨'], 16, 200);
+  });
+});
+
+/* ================= certificate seal spin ================= */
+if (hasAnime) {
+  anime({ targets: '#seal', rotate: '360deg', duration: 6000, loop: true, easing: 'linear' });
+}
+
+/* ================= kiss button ================= */
+document.getElementById('kissBtn').addEventListener('click', function (e) {
+  burst(e.clientX, e.clientY, ['😘','💋','😚','🥰'], 26, 260);
+  confettiRain(30);
+});
+
+/* ================= heart cursor trail (desktop) ================= */
+let lastTrail = 0;
+window.addEventListener('pointermove', (e) => {
+  if (e.pointerType === 'touch') return;
+  const now = performance.now();
+  if (now - lastTrail < 70) return;
+  lastTrail = now;
+  const el = document.createElement('div');
+  el.className = 'fx';
+  el.textContent = '💗';
+  el.style.left = e.clientX + 'px'; el.style.top = e.clientY + 'px';
+  el.style.fontSize = '13px';
+  document.body.appendChild(el);
+  if (hasAnime) {
+    anime({ targets: el, translateY: -34, opacity: [.9, 0], scale: [1, 1.6], duration: 800, easing: 'easeOutQuad', complete: () => el.remove() });
+  } else { setTimeout(() => el.remove(), 500); }
+});
+</script>
+</body>
+</html>
